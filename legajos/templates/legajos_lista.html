@@ -1,0 +1,86 @@
+{% extends 'layouts/base.html' %}
+{% block content %}
+<div class="app-content pt-3 p-md-3 p-lg-4">
+	<div class="container-xl">
+		
+		<div class="row g-3 mb-4 align-items-center justify-content-between">
+			<div class="col-auto">
+						<h1 class="app-page-title mb-0">Legajos del Personal</h1>
+			</div>
+			<div class="col-auto">
+				 <div class="page-utilities">
+					<div class="row g-2 justify-content-start justify-content-md-end align-items-center">
+						<div class="col-auto">
+							<form class="table-search-form row gx-1 align-items-center" method="get">
+                <div class="col-auto">
+                    <input type="text" id="buscar" name="buscar" class="form-control search-orders" 
+                           placeholder="Buscar..." value="{{ query|default:'' }}">
+                </div>
+                <div class="col-auto">
+                    <button type="submit" class="btn app-btn-secondary">Buscar</button>
+                </div>
+              </form>
+										
+						</div><!--//col-->
+					</div><!--//row-->
+				</div><!--//table-utilities-->
+			</div><!--//col-auto-->
+		</div><!--//row-->
+	 
+		
+		<nav id="orders-table-tab" class="orders-table-tab app-nav-tabs nav shadow-sm flex-column flex-sm-row mb-4">
+			<a class="flex-sm-fill text-sm-center nav-link active" id="todos-tab" data-bs-toggle="tab" href="#todos" role="tab" aria-controls="todos" aria-selected="true">Todos</a>
+			<a class="flex-sm-fill text-sm-center nav-link"  id="activos-tab" data-bs-toggle="tab" href="#activos" role="tab" aria-controls="activos" aria-selected="false">Activos</a>
+			<a class="flex-sm-fill text-sm-center nav-link" id="inactivos-tab" data-bs-toggle="tab" href="#inactivos" role="tab" aria-controls="inactivos" aria-selected="false">Inactivos</a>
+	</nav>
+	
+	
+	<div class="tab-content" id="orders-table-tab-content">
+				<div class="tab-pane fade show active" id="todos" role="tabpanel" aria-labelledby="todos-tab">
+				<div class="app-card app-card-orders-table shadow-sm mb-5">
+					<div class="app-card-body">
+						<div class="table-responsive">
+								<table class="table app-table-hover mb-0 text-left">
+							<thead>
+								<tr>
+									<th class="cell">DNI</th>
+									<th class="cell">Apellidos y Nombres</th>
+									<th class="cell">Régimen Laboral</th>
+                  <th class="cell">Estado</th>
+									<th class="cell">Fecha de Creación</th>
+									<th class="cell">Ver</th>
+								</tr>
+							</thead>
+							<tbody>
+                {% for legajo in legajos %}
+								<tr>
+									<td class="cell">{{legajo.empleado.numero_documento}}</td>
+									<td class="cell"><span class="truncate">{{legajo.empleado.apellido_paterno}} {{legajo.empleado.apellido_materno}} {{legajo.empleado.nombres}}</span></td>
+									<td class="cell">{{legajo.get_regimen_laboral_display}}</td>
+                  <td>
+                    {% if legajo.activo %}
+                        <span class="badge bg-success">Activo</span>
+                    {% else %}
+                        <span class="badge bg-secondary">Inactivo</span>
+                    {% endif %}
+                  </td>
+									<td class="cell"><span>{{legajo.fecha_creacion}}</span></td>
+									<td class="cell"><span><a href="{% url 'legajos:info_general' legajo.id %}" class="btn app-btn-primary btn-sm"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil" viewBox="0 0 16 16">
+										<path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0"/>
+									</svg></a></span></td>
+								</tr>
+								{% endfor %}	             
+							</tbody>
+						</table>
+					</div><!--//table-responsive-->
+						 
+				</div><!--//app-card-body-->		
+			</div><!--//app-card-->
+		</div><!--//tab-pane-->
+				
+	
+	</div><!--//tab-content-->
+		
+	</div><!--//container-fluid-->
+</div><!--//app-content-->
+{% endblock content %}

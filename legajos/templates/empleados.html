@@ -1,0 +1,75 @@
+{% extends 'layouts/base.html' %}
+{% block content %}
+<div class="app-content pt-3 p-md-3 p-lg-4">
+	<div class="container-xl">
+		<div class="row g-3 mb-4 align-items-center justify-content-between">
+			<div class="col-auto">
+						<h1 class="app-page-title mb-0">Personal</h1>
+			</div>
+			<div class="col-auto">
+				 <div class="page-utilities">
+					<div class="row g-2 justify-content-start justify-content-md-end align-items-center">
+						<div class="col-auto">
+							<form class="table-search-form row gx-1 align-items-center" method="get">
+                <div class="col-auto">
+                    <input type="text" id="search-orders" name="searchorders" class="form-control search-orders" 
+                           placeholder="Buscar..." value="{{ query|default:'' }}">
+                </div>
+                <div class="col-auto">
+                    <button type="submit" class="btn app-btn-secondary">Buscar</button>
+                </div>
+              </form>			
+						</div><!--//col-->
+					</div><!--//row-->
+				</div><!--//table-utilities-->
+			</div><!--//col-auto-->
+		</div><!--//row-->
+	
+		<div class="tab-content" id="orders-table-tab-content">
+			<div class="tab-pane fade show active" id="todos" role="tabpanel" aria-labelledby="todos-tab">
+				<div class="app-card app-card-orders-table shadow-sm mb-5">
+					<div class="app-card-body">
+						<div class="table-responsive">
+							<table class="table app-table-hover mb-0 text-left">
+								<thead>
+									<tr>
+										<th class="cell">DNI</th>
+										<th class="cell">Apellidos y Nombres</th>
+                    <th class="cell">Régimen</th>
+                    <th class="cell">Condición</th>
+										<th class="cell">Departamento u Oficina</th>
+										<th class="cell">Grupo Ocupacional</th>
+										<th class="cell">Cargo</th>
+										<th class="cell">Nivel</th>
+										<th class="cell">Plaza (Airhsp)</th>
+                    <th class="cell">Historial</th>
+									</tr>
+								</thead>
+								<tbody>
+									{% for emp in empleados %}
+									<tr>
+										<td class="cell">{{emp.empleado.numero_documento}}</td>
+										<td class="cell">{{emp.empleado.apellido_paterno}} {{emp.empleado.apellido_materno}} {{emp.empleado.nombres}}</td>
+                    <td class="cell">{{emp.regimen_actual.denominacion|default:"-"}}</td>
+                    <td class="cell">{{emp.condicion_actual.get_denominacion_display |default:"-"}}</td>
+                    <td class="cell">{{emp.oficina_actual.denominacion|default:"-"}}</td>
+										<td class="cell">{{emp.grupo_actual.denominacion|default:"-"}}</td>
+										<td class="cell">{{emp.cargo_actual.denominacion|default:"-"}}</td>
+										<td class="cell">{{emp.nivel_actual.denominacion|default:"-"}}</td>
+										<td class="cell">{{emp.plaza_actual.denominacion|default:"-"}}</td>
+                    <td class="cell"><span><a href="{% url 'empleados:info_historial' emp.empleado.id %}" class="btn app-btn-primary btn-sm"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil" viewBox="0 0 16 16">
+                      <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0"/>
+                    </svg></a></span></td>
+                  </tr>
+									</tr>
+									{% endfor %}	
+								</tbody>
+							</table>
+						</div><!--//table-responsive-->	 
+					</div><!--//app-card-body-->		
+				</div><!--//app-card-->
+			</div><!--//tab-pane-->			
+		</div><!--//tab-content-->
+	</div><!--//container-fluid-->
+</div><!--//app-content-->
+{% endblock content %}

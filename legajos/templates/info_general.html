@@ -1,0 +1,652 @@
+{% extends 'layouts/base.html' %}
+{% load static %}
+{% block content %}
+<div class="app-content pt-3 p-md-3 p-lg-4">
+	<div class="container-xl">
+		
+		<div class="row g-3 mb-2 align-items-center justify-content-between">
+			<div class="col-auto">
+				<h2 class="app-page-title mb-0">{{ legajo.empleado }} - {{ legajo.get_regimen_laboral_display }}</h2>
+			</div>
+			<div class="col-auto">
+				<div class="page-utilities">
+					<div class="row g-2 justify-content-start justify-content-md-end align-items-center">
+
+						<div class="col-auto">
+                <button class="btn app-btn-secondary" type="button">
+                  <a href="#">Generar Reporte +</a>
+                </button>
+            </div>
+
+					</div><!--//row-->
+				</div><!--//table-utilities-->
+			</div><!--//col-auto-->
+		</div><!--//row-->
+		
+		<nav id="orders-table-tab" class="orders-table-tab app-nav-tabs nav shadow-sm flex-column flex-sm-row mb-2">
+			<a class="flex-sm-fill text-sm-center nav-link active" id="informacion-tab" data-bs-toggle="tab" href="#informacion" role="tab" aria-controls="informacion" aria-selected="true">Información Personal y Familiar</a>
+      <a class="flex-sm-fill text-sm-center nav-link" id="incorporacion-tab" data-bs-toggle="tab" href="#incorporacion" role="tab" aria-controls="incorporacion" aria-selected="false">Incorporación</a>
+      <a class="flex-sm-fill text-sm-center nav-link" id="estudios-tab" data-bs-toggle="tab" href="#estudios" role="tab" aria-controls="estudios" aria-selected="false">Formación Académica</a>
+      <a class="flex-sm-fill text-sm-center nav-link" id="experiencia-tab" data-bs-toggle="tab" href="#experiencia" role="tab" aria-controls="experiencia" aria-selected="false">Experiencia Laboral</a>
+      <a class="flex-sm-fill text-sm-center nav-link" id="amd-tab" data-bs-toggle="tab" href="#amd" role="tab" aria-controls="orders-amd" aria-selected="false">Movimientos de Personal</a>
+			<a class="flex-sm-fill text-sm-center nav-link" id="compensaciones-tab" data-bs-toggle="tab" href="#compensaciones" role="tab" aria-controls="compensaciones" aria-selected="false">Compensaciones</a>
+      <a class="flex-sm-fill text-sm-center nav-link" id="evaluacion-tab" data-bs-toggle="tab" href="#evaluacion" role="tab" aria-controls="evaluacion" aria-selected="false">Evaluación, Progresión y Desplazamiento</a>
+      <a class="flex-sm-fill text-sm-center nav-link" id="reconocimiento-tab" data-bs-toggle="tab" href="#reconocimiento" role="tab" aria-controls="reconocimiento" aria-selected="false">Reconocimientos y Sanciones</a>
+      <a class="flex-sm-fill text-sm-center nav-link" id="laboral-tab" data-bs-toggle="tab" href="#laboral" role="tab" aria-controls="laboral" aria-selected="false">Relaciones Laborales</a>
+      <a class="flex-sm-fill text-sm-center nav-link" id="seguridad-tab" data-bs-toggle="tab" href="#seguridad" role="tab" aria-controls="seguridad" aria-selected="false">SST y Bienestar Social</a>
+      <a class="flex-sm-fill text-sm-center nav-link" id="desvinculacion-tab" data-bs-toggle="tab" href="#desvinculacion" role="tab" aria-controls="desvinculacion" aria-selected="false">Desvinculación</a>
+      <a class="flex-sm-fill text-sm-center nav-link" id="otros-tab" data-bs-toggle="tab" href="#otros" role="tab" aria-controls="otros" aria-selected="false">Otros Documentos</a>
+		</nav>
+
+    <div class="tab-content" id="orders-table-tab-content">
+      <div class="tab-pane fade show active" id="informacion" role="tabpanel" aria-labelledby="informacion-tab">
+          
+        <div class="app-card app-card-orders-table mb-3">
+          <div class="app-card-body">
+            <div class="table-responsive">	
+              <table class="table mb-0 text-left">
+                <thead>
+                  <tr>
+                    <th class="cell">Tipo de Documento</th>
+                    <th class="cell">Fecha</th>
+                    <th class="cell">Documento</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for d in info_personal %}
+                  <tr>
+                    <td class="cell"><span>{{ d.documento }}</span></td>
+                    <td class="cell"><span>{{ d.fecha|date:"d/m/Y"|default_if_none:"" }}</span></td>
+                    <td class="cell"><span>
+                      <a href="{{ d.pdf.url }}" target="_blank" class="text-primary">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-file-earmark-pdf" viewBox="0 0 16 16">
+                          <path d="M14 14V4.5L9.5 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2M9.5 3A1.5 1.5 0 0 0 11 4.5h2V14a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h5.5z"/>
+                          <path d="M4.603 14.087a.8.8 0 0 1-.438-.42c-.195-.388-.13-.776.08-1.102.198-.307.526-.568.897-.787a7.7 7.7 0 0 1 1.482-.645 20 20 0 0 0 1.062-2.227 7.3 7.3 0 0 1-.43-1.295c-.086-.4-.119-.796-.046-1.136.075-.354.274-.672.65-.823.192-.077.4-.12.602-.077a.7.7 0 0 1 .477.365c.088.164.12.356.127.538.007.188-.012.396-.047.614-.084.51-.27 1.134-.52 1.794a11 11 0 0 0 .98 1.686 5.8 5.8 0 0 1 1.334.05c.364.066.734.195.96.465.12.144.193.32.2.518.007.192-.047.382-.138.563a1.04 1.04 0 0 1-.354.416.86.86 0 0 1-.51.138c-.331-.014-.654-.196-.933-.417a5.7 5.7 0 0 1-.911-.95 11.7 11.7 0 0 0-1.997.406 11.3 11.3 0 0 1-1.02 1.51c-.292.35-.609.656-.927.787a.8.8 0 0 1-.58.029m1.379-1.901q-.25.115-.459.238c-.328.194-.541.383-.647.547-.094.145-.096.25-.04.361q.016.032.026.044l.035-.012c.137-.056.355-.235.635-.572a8 8 0 0 0 .45-.606m1.64-1.33a13 13 0 0 1 1.01-.193 12 12 0 0 1-.51-.858 21 21 0 0 1-.5 1.05zm2.446.45q.226.245.435.41c.24.19.407.253.498.256a.1.1 0 0 0 .07-.015.3.3 0 0 0 .094-.125.44.44 0 0 0 .059-.2.1.1 0 0 0-.026-.063c-.052-.062-.2-.152-.518-.209a4 4 0 0 0-.612-.053zM8.078 7.8a7 7 0 0 0 .2-.828q.046-.282.038-.465a.6.6 0 0 0-.032-.198.5.5 0 0 0-.145.04c-.087.035-.158.106-.196.283-.04.192-.03.469.046.822q.036.167.09.346z"/>
+                        </svg>
+                      </a></span></td>
+                  </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+            </div><!--//table-responsive-->
+          </div><!--//app-card-body-->		
+        </div><!--//app-card-->
+      </div><!--//tab-pane-->
+
+			<div class="tab-pane fade" id="incorporacion" role="tabpanel" aria-labelledby="incorporacion-tab">
+        <div class="app-card app-card-orders-table shadow-sm mb-3">
+					<div class="app-card-body">
+						<div class="table-responsive">
+              <table class="table app-table-hover mb-0 text-left">
+								<thead>
+									<tr>
+										<th class="cell">Tipo de Documento</th>
+                    <th class="cell">Descripción</th>
+										<th class="cell">Fecha</th>
+										<th class="cell">Documento</th>
+									</tr>
+								</thead>
+                <tbody>
+                  {% for d in incorporacion_docs %}
+                  <tr>
+                    <td class="cell"><span>{{ d.documento }}</span></td>
+                    <td class="cell"><span>{{ d.descripcion|default_if_none:"" }}</span></td>
+                    <td class="cell"><span>{{ d.fecha|date:"d/m/Y"|default_if_none:"" }}</span></td>
+                    <td class="cell"><span>
+                    {% if d.pdf %}
+                      <a href="{{ d.pdf.url }}" target="_blank" class="text-primary"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-file-earmark-pdf" viewBox="0 0 16 16">
+                        <path d="M14 14V4.5L9.5 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2M9.5 3A1.5 1.5 0 0 0 11 4.5h2V14a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h5.5z"/>
+                        <path d="M4.603 14.087a.8.8 0 0 1-.438-.42c-.195-.388-.13-.776.08-1.102.198-.307.526-.568.897-.787a7.7 7.7 0 0 1 1.482-.645 20 20 0 0 0 1.062-2.227 7.3 7.3 0 0 1-.43-1.295c-.086-.4-.119-.796-.046-1.136.075-.354.274-.672.65-.823.192-.077.4-.12.602-.077a.7.7 0 0 1 .477.365c.088.164.12.356.127.538.007.188-.012.396-.047.614-.084.51-.27 1.134-.52 1.794a11 11 0 0 0 .98 1.686 5.8 5.8 0 0 1 1.334.05c.364.066.734.195.96.465.12.144.193.32.2.518.007.192-.047.382-.138.563a1.04 1.04 0 0 1-.354.416.86.86 0 0 1-.51.138c-.331-.014-.654-.196-.933-.417a5.7 5.7 0 0 1-.911-.95 11.7 11.7 0 0 0-1.997.406 11.3 11.3 0 0 1-1.02 1.51c-.292.35-.609.656-.927.787a.8.8 0 0 1-.58.029m1.379-1.901q-.25.115-.459.238c-.328.194-.541.383-.647.547-.094.145-.096.25-.04.361q.016.032.026.044l.035-.012c.137-.056.355-.235.635-.572a8 8 0 0 0 .45-.606m1.64-1.33a13 13 0 0 1 1.01-.193 12 12 0 0 1-.51-.858 21 21 0 0 1-.5 1.05zm2.446.45q.226.245.435.41c.24.19.407.253.498.256a.1.1 0 0 0 .07-.015.3.3 0 0 0 .094-.125.44.44 0 0 0 .059-.2.1.1 0 0 0-.026-.063c-.052-.062-.2-.152-.518-.209a4 4 0 0 0-.612-.053zM8.078 7.8a7 7 0 0 0 .2-.828q.046-.282.038-.465a.6.6 0 0 0-.032-.198.5.5 0 0 0-.145.04c-.087.035-.158.106-.196.283-.04.192-.03.469.046.822q.036.167.09.346z"/>
+                      </svg></a>
+                    {% else %}
+                      <p>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-file-earmark-x" viewBox="0 0 16 16">
+                          <path d="M6.854 7.146a.5.5 0 1 0-.708.708L7.293 9l-1.147 1.146a.5.5 0 0 0 .708.708L8 9.707l1.146 1.147a.5.5 0 0 0 .708-.708L8.707 9l1.147-1.146a.5.5 0 0 0-.708-.708L8 8.293z"/>
+                          <path d="M14 14V4.5L9.5 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2M9.5 3A1.5 1.5 0 0 0 11 4.5h2V14a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h5.5z"/>
+                        </svg>
+                      </p>
+                    {% endif %}</span></td>
+                  </tr>
+                  {% endfor %}	
+
+									{% for vinculo in incorporacion %}
+									<tr>
+										<td class="cell"><span>{{ vinculo.resolucion }}</span></td>
+                    <td class="cell"><span>{{ vinculo.descripcion }}</span></td>
+										<td class="cell"><span class="truncate">{{ vinculo.resolucion.fecha|date:"d/m/Y"|default_if_none:"" }}</span></td>
+                    <td class="cell"><span>
+                    {% if vinculo.resolucion and vinculo.resolucion.pdf %}
+											<a href="{{ vinculo.resolucion.pdf.url }}" target="_blank" class="text-primary"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-file-earmark-pdf" viewBox="0 0 16 16">
+												<path d="M14 14V4.5L9.5 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2M9.5 3A1.5 1.5 0 0 0 11 4.5h2V14a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h5.5z"/>
+												<path d="M4.603 14.087a.8.8 0 0 1-.438-.42c-.195-.388-.13-.776.08-1.102.198-.307.526-.568.897-.787a7.7 7.7 0 0 1 1.482-.645 20 20 0 0 0 1.062-2.227 7.3 7.3 0 0 1-.43-1.295c-.086-.4-.119-.796-.046-1.136.075-.354.274-.672.65-.823.192-.077.4-.12.602-.077a.7.7 0 0 1 .477.365c.088.164.12.356.127.538.007.188-.012.396-.047.614-.084.51-.27 1.134-.52 1.794a11 11 0 0 0 .98 1.686 5.8 5.8 0 0 1 1.334.05c.364.066.734.195.96.465.12.144.193.32.2.518.007.192-.047.382-.138.563a1.04 1.04 0 0 1-.354.416.86.86 0 0 1-.51.138c-.331-.014-.654-.196-.933-.417a5.7 5.7 0 0 1-.911-.95 11.7 11.7 0 0 0-1.997.406 11.3 11.3 0 0 1-1.02 1.51c-.292.35-.609.656-.927.787a.8.8 0 0 1-.58.029m1.379-1.901q-.25.115-.459.238c-.328.194-.541.383-.647.547-.094.145-.096.25-.04.361q.016.032.026.044l.035-.012c.137-.056.355-.235.635-.572a8 8 0 0 0 .45-.606m1.64-1.33a13 13 0 0 1 1.01-.193 12 12 0 0 1-.51-.858 21 21 0 0 1-.5 1.05zm2.446.45q.226.245.435.41c.24.19.407.253.498.256a.1.1 0 0 0 .07-.015.3.3 0 0 0 .094-.125.44.44 0 0 0 .059-.2.1.1 0 0 0-.026-.063c-.052-.062-.2-.152-.518-.209a4 4 0 0 0-.612-.053zM8.078 7.8a7 7 0 0 0 .2-.828q.046-.282.038-.465a.6.6 0 0 0-.032-.198.5.5 0 0 0-.145.04c-.087.035-.158.106-.196.283-.04.192-.03.469.046.822q.036.167.09.346z"/>
+											</svg></a>
+										{% else %}
+											<p>
+												<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-file-earmark-x" viewBox="0 0 16 16">
+													<path d="M6.854 7.146a.5.5 0 1 0-.708.708L7.293 9l-1.147 1.146a.5.5 0 0 0 .708.708L8 9.707l1.146 1.147a.5.5 0 0 0 .708-.708L8.707 9l1.147-1.146a.5.5 0 0 0-.708-.708L8 8.293z"/>
+													<path d="M14 14V4.5L9.5 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2M9.5 3A1.5 1.5 0 0 0 11 4.5h2V14a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h5.5z"/>
+												</svg>
+											</p>
+										{% endif %}</span></td>
+									</tr>
+									{% endfor %}
+                </tbody>
+							</table>
+						</div><!--//table-responsive-->				 
+					</div><!--//app-card-body-->		
+				</div><!--//app-card-->
+      </div><!--//tab-pane-->
+  
+			<div class="tab-pane fade" id="estudios" role="tabpanel" aria-labelledby="estudios-tab">
+        <div class="app-card app-card-orders-table shadow-sm mb-3">
+					<div class="app-card-body">
+						<div class="table-responsive">
+              <table class="table app-table-hover mb-0 text-left">
+								<thead>
+									<tr>
+										<th class="cell">Centro de Estudios</th>
+                    <th class="cell">Especialidad</th>
+										<th class="cell">Fecha</th>
+										<th class="cell">Documento</th>
+									</tr>
+								</thead>
+                <tbody>
+                  {% for f in formaciones %}
+                  <tr>
+                    <td class="cell"><span>{{ f.centro }}</span></td>
+                    <td class="cell"><span>{{ f.especialidad }}</span></td>
+                    <td class="cell"><span>{{ f.fecha|date:"d/m/Y"|default_if_none:"" }}</span></td>
+                    <td class="cell"><span>
+                    {% if f.pdf %}
+                        <a href="{{ f.pdf.url }}" target="_blank" class="text-primary"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-file-earmark-pdf" viewBox="0 0 16 16">
+                          <path d="M14 14V4.5L9.5 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2M9.5 3A1.5 1.5 0 0 0 11 4.5h2V14a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h5.5z"/>
+                          <path d="M4.603 14.087a.8.8 0 0 1-.438-.42c-.195-.388-.13-.776.08-1.102.198-.307.526-.568.897-.787a7.7 7.7 0 0 1 1.482-.645 20 20 0 0 0 1.062-2.227 7.3 7.3 0 0 1-.43-1.295c-.086-.4-.119-.796-.046-1.136.075-.354.274-.672.65-.823.192-.077.4-.12.602-.077a.7.7 0 0 1 .477.365c.088.164.12.356.127.538.007.188-.012.396-.047.614-.084.51-.27 1.134-.52 1.794a11 11 0 0 0 .98 1.686 5.8 5.8 0 0 1 1.334.05c.364.066.734.195.96.465.12.144.193.32.2.518.007.192-.047.382-.138.563a1.04 1.04 0 0 1-.354.416.86.86 0 0 1-.51.138c-.331-.014-.654-.196-.933-.417a5.7 5.7 0 0 1-.911-.95 11.7 11.7 0 0 0-1.997.406 11.3 11.3 0 0 1-1.02 1.51c-.292.35-.609.656-.927.787a.8.8 0 0 1-.58.029m1.379-1.901q-.25.115-.459.238c-.328.194-.541.383-.647.547-.094.145-.096.25-.04.361q.016.032.026.044l.035-.012c.137-.056.355-.235.635-.572a8 8 0 0 0 .45-.606m1.64-1.33a13 13 0 0 1 1.01-.193 12 12 0 0 1-.51-.858 21 21 0 0 1-.5 1.05zm2.446.45q.226.245.435.41c.24.19.407.253.498.256a.1.1 0 0 0 .07-.015.3.3 0 0 0 .094-.125.44.44 0 0 0 .059-.2.1.1 0 0 0-.026-.063c-.052-.062-.2-.152-.518-.209a4 4 0 0 0-.612-.053zM8.078 7.8a7 7 0 0 0 .2-.828q.046-.282.038-.465a.6.6 0 0 0-.032-.198.5.5 0 0 0-.145.04c-.087.035-.158.106-.196.283-.04.192-.03.469.046.822q.036.167.09.346z"/>
+                        </svg></a>
+                    {% else %}
+                        <p>
+                          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-file-earmark-x" viewBox="0 0 16 16">
+                            <path d="M6.854 7.146a.5.5 0 1 0-.708.708L7.293 9l-1.147 1.146a.5.5 0 0 0 .708.708L8 9.707l1.146 1.147a.5.5 0 0 0 .708-.708L8.707 9l1.147-1.146a.5.5 0 0 0-.708-.708L8 8.293z"/>
+                            <path d="M14 14V4.5L9.5 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2M9.5 3A1.5 1.5 0 0 0 11 4.5h2V14a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h5.5z"/>
+                          </svg>
+                        </p>
+                    {% endif %}</span></td>
+                  </tr>
+                  {% endfor %}
+                </tbody>
+							</table>
+						</div><!--//table-responsive-->				 
+					</div><!--//app-card-body-->		
+				</div><!--//app-card-->
+      </div><!--//tab-pane-->
+
+			<div class="tab-pane fade" id="experiencia" role="tabpanel" aria-labelledby="experiencia-tab">
+        <div class="app-card app-card-orders-table mb-3">
+          <div class="app-card-body">
+            <div class="table-responsive">	
+              <table class="table mb-0 text-left">
+                <thead>
+                  <tr>
+                    <th class="cell">Institución o Empresa</th>
+                    <th class="cell">Tipo de Documento</th>
+                    <th class="cell">Cargo</th>
+                    <th class="cell">Fecha Inicio</th>
+                    <th class="cell">Fecha Fin</th>
+                    <th class="cell">Documento</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for experiencia in experiencias %}
+                  <tr>
+                    <td class="cell"><span>{{ experiencia.institucion }}</span></td>
+                    <td class="cell"><span>{{ experiencia.get_documento_display }}</span></td>
+                    <td class="cell"><span>{{ experiencia.cargo }}</span></td>
+                    <td class="cell"><span>{{ experiencia.fecha_inicio|date:"d/m/Y"|default_if_none:"" }}</span></td>
+                    <td class="cell"><span>{{ experiencia.fecha_fin|date:"d/m/Y"|default_if_none:"" }}</span></td>
+                    <td class="cell"><span>
+                      {% if experiencia.pdf %}
+                          <a href="{{ experiencia.pdf.url }}" target="_blank" class="text-primary"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-file-earmark-pdf" viewBox="0 0 16 16">
+                            <path d="M14 14V4.5L9.5 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2M9.5 3A1.5 1.5 0 0 0 11 4.5h2V14a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h5.5z"/>
+                            <path d="M4.603 14.087a.8.8 0 0 1-.438-.42c-.195-.388-.13-.776.08-1.102.198-.307.526-.568.897-.787a7.7 7.7 0 0 1 1.482-.645 20 20 0 0 0 1.062-2.227 7.3 7.3 0 0 1-.43-1.295c-.086-.4-.119-.796-.046-1.136.075-.354.274-.672.65-.823.192-.077.4-.12.602-.077a.7.7 0 0 1 .477.365c.088.164.12.356.127.538.007.188-.012.396-.047.614-.084.51-.27 1.134-.52 1.794a11 11 0 0 0 .98 1.686 5.8 5.8 0 0 1 1.334.05c.364.066.734.195.96.465.12.144.193.32.2.518.007.192-.047.382-.138.563a1.04 1.04 0 0 1-.354.416.86.86 0 0 1-.51.138c-.331-.014-.654-.196-.933-.417a5.7 5.7 0 0 1-.911-.95 11.7 11.7 0 0 0-1.997.406 11.3 11.3 0 0 1-1.02 1.51c-.292.35-.609.656-.927.787a.8.8 0 0 1-.58.029m1.379-1.901q-.25.115-.459.238c-.328.194-.541.383-.647.547-.094.145-.096.25-.04.361q.016.032.026.044l.035-.012c.137-.056.355-.235.635-.572a8 8 0 0 0 .45-.606m1.64-1.33a13 13 0 0 1 1.01-.193 12 12 0 0 1-.51-.858 21 21 0 0 1-.5 1.05zm2.446.45q.226.245.435.41c.24.19.407.253.498.256a.1.1 0 0 0 .07-.015.3.3 0 0 0 .094-.125.44.44 0 0 0 .059-.2.1.1 0 0 0-.026-.063c-.052-.062-.2-.152-.518-.209a4 4 0 0 0-.612-.053zM8.078 7.8a7 7 0 0 0 .2-.828q.046-.282.038-.465a.6.6 0 0 0-.032-.198.5.5 0 0 0-.145.04c-.087.035-.158.106-.196.283-.04.192-.03.469.046.822q.036.167.09.346z"/>
+                          </svg></a>
+                      {% else %}
+                          <p>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-file-earmark-x" viewBox="0 0 16 16">
+                              <path d="M6.854 7.146a.5.5 0 1 0-.708.708L7.293 9l-1.147 1.146a.5.5 0 0 0 .708.708L8 9.707l1.146 1.147a.5.5 0 0 0 .708-.708L8.707 9l1.147-1.146a.5.5 0 0 0-.708-.708L8 8.293z"/>
+                              <path d="M14 14V4.5L9.5 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2M9.5 3A1.5 1.5 0 0 0 11 4.5h2V14a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h5.5z"/>
+                            </svg>
+                          </p>
+                      {% endif %}</span></td>
+                  </tr>
+                  {% endfor %}	
+                </tbody>
+              </table>
+            </div><!--//table-responsive-->
+          </div><!--//app-card-body-->		
+        </div><!--//app-card-->
+      </div><!--//tab-pane-->
+
+			<div class="tab-pane fade" id="amd" role="tabpanel" aria-labelledby="amd-tab">
+        <div class="app-card app-card-orders-table mb-3">
+					<div class="app-card-body">
+						<div class="table-responsive">	
+							<table class="table mb-0 text-left">
+								<thead>
+									<tr>
+										<th class="cell">Resolución</th>
+                    <th class="cell">Tipo de Licencia</th>
+										<th class="cell">Motivo</th>
+										<th class="cell">Asunto</th>
+										<th class="cell">Desde</th>
+										<th class="cell">Hasta</th>
+                    <th class="cell">Total Días</th>
+										<th class="cell">Documento</th>
+									</tr>
+								</thead>
+								<tbody>
+									{% for movimiento in movimientos %}
+									<tr>
+										<td class="cell"><span>{{ movimiento.resolucion }}</span></td>
+                    <td class="cell"><span>{{ movimiento.get_tipo_display }}</span></td>
+										<td class="cell"><span>{{ movimiento.motivo }}</span></td>
+										<td class="cell"><span>{{ movimiento.asunto }}</span></td>
+										<td class="cell"><span>{{ movimiento.desde|date:"d/m/Y" }}</span></td>
+										<td class="cell"><span>{{ movimiento.hasta|date:"d/m/Y" }}</span></td>
+                    <td class="cell"><span>{{ movimiento.total_dias }}</span></td>
+                    <td class="cell"><span>
+                    {% if movimiento.resolucion and movimiento.resolucion.pdf %}
+                      <a href="{{ movimiento.resolucion.pdf.url }}" target="_blank" class="text-primary"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-file-earmark-pdf" viewBox="0 0 16 16">
+                        <path d="M14 14V4.5L9.5 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2M9.5 3A1.5 1.5 0 0 0 11 4.5h2V14a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h5.5z"/>
+                        <path d="M4.603 14.087a.8.8 0 0 1-.438-.42c-.195-.388-.13-.776.08-1.102.198-.307.526-.568.897-.787a7.7 7.7 0 0 1 1.482-.645 20 20 0 0 0 1.062-2.227 7.3 7.3 0 0 1-.43-1.295c-.086-.4-.119-.796-.046-1.136.075-.354.274-.672.65-.823.192-.077.4-.12.602-.077a.7.7 0 0 1 .477.365c.088.164.12.356.127.538.007.188-.012.396-.047.614-.084.51-.27 1.134-.52 1.794a11 11 0 0 0 .98 1.686 5.8 5.8 0 0 1 1.334.05c.364.066.734.195.96.465.12.144.193.32.2.518.007.192-.047.382-.138.563a1.04 1.04 0 0 1-.354.416.86.86 0 0 1-.51.138c-.331-.014-.654-.196-.933-.417a5.7 5.7 0 0 1-.911-.95 11.7 11.7 0 0 0-1.997.406 11.3 11.3 0 0 1-1.02 1.51c-.292.35-.609.656-.927.787a.8.8 0 0 1-.58.029m1.379-1.901q-.25.115-.459.238c-.328.194-.541.383-.647.547-.094.145-.096.25-.04.361q.016.032.026.044l.035-.012c.137-.056.355-.235.635-.572a8 8 0 0 0 .45-.606m1.64-1.33a13 13 0 0 1 1.01-.193 12 12 0 0 1-.51-.858 21 21 0 0 1-.5 1.05zm2.446.45q.226.245.435.41c.24.19.407.253.498.256a.1.1 0 0 0 .07-.015.3.3 0 0 0 .094-.125.44.44 0 0 0 .059-.2.1.1 0 0 0-.026-.063c-.052-.062-.2-.152-.518-.209a4 4 0 0 0-.612-.053zM8.078 7.8a7 7 0 0 0 .2-.828q.046-.282.038-.465a.6.6 0 0 0-.032-.198.5.5 0 0 0-.145.04c-.087.035-.158.106-.196.283-.04.192-.03.469.046.822q.036.167.09.346z"/>
+                      </svg></a>
+                    {% else %}
+                      <p>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-file-earmark-x" viewBox="0 0 16 16">
+                          <path d="M6.854 7.146a.5.5 0 1 0-.708.708L7.293 9l-1.147 1.146a.5.5 0 0 0 .708.708L8 9.707l1.146 1.147a.5.5 0 0 0 .708-.708L8.707 9l1.147-1.146a.5.5 0 0 0-.708-.708L8 8.293z"/>
+                          <path d="M14 14V4.5L9.5 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2M9.5 3A1.5 1.5 0 0 0 11 4.5h2V14a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h5.5z"/>
+                        </svg>
+                      </p>
+                    {% endif %}</span></td>
+									</tr>
+									{% endfor %}	
+								</tbody>
+							</table>
+						</div><!--//table-responsive-->
+					</div><!--//app-card-body-->		
+				</div><!--//app-card-->
+			</div><!--//tab-pane-->
+
+			<div class="tab-pane fade" id="compensaciones" role="tabpanel" aria-labelledby="compensaciones-tab">		
+        <div class="app-card app-card-orders-table mb-3">
+          <div class="app-card-body">
+            <div class="table-responsive">	
+              <table class="table mb-0 text-left">
+                <thead>
+                  <tr>
+                    <th class="cell">Resolución</th>
+                    <th class="cell">Motivo</th>
+                    <th class="cell">Descripción</th>
+                    <th class="cell">Fecha</th>
+                    <th class="cell">Documento</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for compensacion in compensaciones %}
+									<tr>
+										<td class="cell"><span>{{ compensacion.resolucion }}</span></td>
+                    <td class="cell"><span>{{ compensacion.motivo }}</span></td>
+                    <td class="cell"><span>{{ compensacion.descripcion }}</span></td>
+										<td class="cell"><span>{{ compensacion.fecha|date:"d/m/Y"|default_if_none:"" }}</span></td>
+                    <td class="cell"><span>
+                    {% if compensacion.resolucion and compensacion.resolucion.pdf %}
+                      <a href="{{ compensacion.resolucion.pdf.url }}" target="_blank" class="text-primary"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-file-earmark-pdf" viewBox="0 0 16 16">
+                        <path d="M14 14V4.5L9.5 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2M9.5 3A1.5 1.5 0 0 0 11 4.5h2V14a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h5.5z"/>
+                        <path d="M4.603 14.087a.8.8 0 0 1-.438-.42c-.195-.388-.13-.776.08-1.102.198-.307.526-.568.897-.787a7.7 7.7 0 0 1 1.482-.645 20 20 0 0 0 1.062-2.227 7.3 7.3 0 0 1-.43-1.295c-.086-.4-.119-.796-.046-1.136.075-.354.274-.672.65-.823.192-.077.4-.12.602-.077a.7.7 0 0 1 .477.365c.088.164.12.356.127.538.007.188-.012.396-.047.614-.084.51-.27 1.134-.52 1.794a11 11 0 0 0 .98 1.686 5.8 5.8 0 0 1 1.334.05c.364.066.734.195.96.465.12.144.193.32.2.518.007.192-.047.382-.138.563a1.04 1.04 0 0 1-.354.416.86.86 0 0 1-.51.138c-.331-.014-.654-.196-.933-.417a5.7 5.7 0 0 1-.911-.95 11.7 11.7 0 0 0-1.997.406 11.3 11.3 0 0 1-1.02 1.51c-.292.35-.609.656-.927.787a.8.8 0 0 1-.58.029m1.379-1.901q-.25.115-.459.238c-.328.194-.541.383-.647.547-.094.145-.096.25-.04.361q.016.032.026.044l.035-.012c.137-.056.355-.235.635-.572a8 8 0 0 0 .45-.606m1.64-1.33a13 13 0 0 1 1.01-.193 12 12 0 0 1-.51-.858 21 21 0 0 1-.5 1.05zm2.446.45q.226.245.435.41c.24.19.407.253.498.256a.1.1 0 0 0 .07-.015.3.3 0 0 0 .094-.125.44.44 0 0 0 .059-.2.1.1 0 0 0-.026-.063c-.052-.062-.2-.152-.518-.209a4 4 0 0 0-.612-.053zM8.078 7.8a7 7 0 0 0 .2-.828q.046-.282.038-.465a.6.6 0 0 0-.032-.198.5.5 0 0 0-.145.04c-.087.035-.158.106-.196.283-.04.192-.03.469.046.822q.036.167.09.346z"/>
+                      </svg></a>
+                    {% else %}
+                      <p>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-file-earmark-x" viewBox="0 0 16 16">
+                          <path d="M6.854 7.146a.5.5 0 1 0-.708.708L7.293 9l-1.147 1.146a.5.5 0 0 0 .708.708L8 9.707l1.146 1.147a.5.5 0 0 0 .708-.708L8.707 9l1.147-1.146a.5.5 0 0 0-.708-.708L8 8.293z"/>
+                          <path d="M14 14V4.5L9.5 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2M9.5 3A1.5 1.5 0 0 0 11 4.5h2V14a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h5.5z"/>
+                        </svg>
+                      </p>
+                    {% endif %}</span></td>
+									</tr>
+									{% endfor %}	
+                </tbody>
+              </table>
+            </div><!--//table-responsive-->
+          </div><!--//app-card-body-->		
+        </div><!--//app-card-->
+      </div><!--//tab-pane-->
+
+			<div class="tab-pane fade" id="evaluacion" role="tabpanel" aria-labelledby="evaluacion-tab">
+        <div class="app-card app-card-orders-table mb-3">
+          <div class="app-card-body">
+            <div class="table-responsive">	
+              <table class="table mb-0 text-left">
+                <thead>
+                  <tr>
+                    <th class="cell">Tipo de Documento</th>
+                    <th class="cell">Descripción</th>
+                    <th class="cell">Fecha</th>
+                    <th class="cell">Documento</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for d in evaluacion %}
+                  <tr>
+                    <td class="cell"><span>{{ d.documento }}</span></td>
+                    <td class="cell"><span>{{ d.descripcion}}</span></td>
+                    <td class="cell"><span>{{ d.fecha|date:"d/m/Y"|default_if_none:"" }}</span></td>
+                    <td class="cell"><span>
+                    {% if d.pdf %}
+                      <a href="{{ d.pdf.url }}" target="_blank" class="text-primary"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-file-earmark-pdf" viewBox="0 0 16 16">
+                        <path d="M14 14V4.5L9.5 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2M9.5 3A1.5 1.5 0 0 0 11 4.5h2V14a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h5.5z"/>
+                        <path d="M4.603 14.087a.8.8 0 0 1-.438-.42c-.195-.388-.13-.776.08-1.102.198-.307.526-.568.897-.787a7.7 7.7 0 0 1 1.482-.645 20 20 0 0 0 1.062-2.227 7.3 7.3 0 0 1-.43-1.295c-.086-.4-.119-.796-.046-1.136.075-.354.274-.672.65-.823.192-.077.4-.12.602-.077a.7.7 0 0 1 .477.365c.088.164.12.356.127.538.007.188-.012.396-.047.614-.084.51-.27 1.134-.52 1.794a11 11 0 0 0 .98 1.686 5.8 5.8 0 0 1 1.334.05c.364.066.734.195.96.465.12.144.193.32.2.518.007.192-.047.382-.138.563a1.04 1.04 0 0 1-.354.416.86.86 0 0 1-.51.138c-.331-.014-.654-.196-.933-.417a5.7 5.7 0 0 1-.911-.95 11.7 11.7 0 0 0-1.997.406 11.3 11.3 0 0 1-1.02 1.51c-.292.35-.609.656-.927.787a.8.8 0 0 1-.58.029m1.379-1.901q-.25.115-.459.238c-.328.194-.541.383-.647.547-.094.145-.096.25-.04.361q.016.032.026.044l.035-.012c.137-.056.355-.235.635-.572a8 8 0 0 0 .45-.606m1.64-1.33a13 13 0 0 1 1.01-.193 12 12 0 0 1-.51-.858 21 21 0 0 1-.5 1.05zm2.446.45q.226.245.435.41c.24.19.407.253.498.256a.1.1 0 0 0 .07-.015.3.3 0 0 0 .094-.125.44.44 0 0 0 .059-.2.1.1 0 0 0-.026-.063c-.052-.062-.2-.152-.518-.209a4 4 0 0 0-.612-.053zM8.078 7.8a7 7 0 0 0 .2-.828q.046-.282.038-.465a.6.6 0 0 0-.032-.198.5.5 0 0 0-.145.04c-.087.035-.158.106-.196.283-.04.192-.03.469.046.822q.036.167.09.346z"/>
+                      </svg></a>
+                    {% else %}
+                      <p>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-file-earmark-x" viewBox="0 0 16 16">
+                          <path d="M6.854 7.146a.5.5 0 1 0-.708.708L7.293 9l-1.147 1.146a.5.5 0 0 0 .708.708L8 9.707l1.146 1.147a.5.5 0 0 0 .708-.708L8.707 9l1.147-1.146a.5.5 0 0 0-.708-.708L8 8.293z"/>
+                          <path d="M14 14V4.5L9.5 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2M9.5 3A1.5 1.5 0 0 0 11 4.5h2V14a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h5.5z"/>
+                        </svg>
+                      </p>
+                    {% endif %}</span></td>
+                  </tr>
+                  {% endfor %}	
+									{% for vinculo in progresion %}
+									<tr>
+										<td class="cell"><span>{{ vinculo.resolucion }}</span></td>
+                    <td class="cell"><span>{{ vinculo.descripcion }}</span></td>
+										<td class="cell"><span class="truncate">{{ vinculo.resolucion.fecha|date:"d/m/Y"|default_if_none:"" }}</span></td>
+                    <td class="cell"><span>
+                    {% if vinculo.resolucion.pdf %}
+											<a href="{{ vinculo.resolucion.pdf.url }}" target="_blank" class="text-primary"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-file-earmark-pdf" viewBox="0 0 16 16">
+												<path d="M14 14V4.5L9.5 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2M9.5 3A1.5 1.5 0 0 0 11 4.5h2V14a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h5.5z"/>
+												<path d="M4.603 14.087a.8.8 0 0 1-.438-.42c-.195-.388-.13-.776.08-1.102.198-.307.526-.568.897-.787a7.7 7.7 0 0 1 1.482-.645 20 20 0 0 0 1.062-2.227 7.3 7.3 0 0 1-.43-1.295c-.086-.4-.119-.796-.046-1.136.075-.354.274-.672.65-.823.192-.077.4-.12.602-.077a.7.7 0 0 1 .477.365c.088.164.12.356.127.538.007.188-.012.396-.047.614-.084.51-.27 1.134-.52 1.794a11 11 0 0 0 .98 1.686 5.8 5.8 0 0 1 1.334.05c.364.066.734.195.96.465.12.144.193.32.2.518.007.192-.047.382-.138.563a1.04 1.04 0 0 1-.354.416.86.86 0 0 1-.51.138c-.331-.014-.654-.196-.933-.417a5.7 5.7 0 0 1-.911-.95 11.7 11.7 0 0 0-1.997.406 11.3 11.3 0 0 1-1.02 1.51c-.292.35-.609.656-.927.787a.8.8 0 0 1-.58.029m1.379-1.901q-.25.115-.459.238c-.328.194-.541.383-.647.547-.094.145-.096.25-.04.361q.016.032.026.044l.035-.012c.137-.056.355-.235.635-.572a8 8 0 0 0 .45-.606m1.64-1.33a13 13 0 0 1 1.01-.193 12 12 0 0 1-.51-.858 21 21 0 0 1-.5 1.05zm2.446.45q.226.245.435.41c.24.19.407.253.498.256a.1.1 0 0 0 .07-.015.3.3 0 0 0 .094-.125.44.44 0 0 0 .059-.2.1.1 0 0 0-.026-.063c-.052-.062-.2-.152-.518-.209a4 4 0 0 0-.612-.053zM8.078 7.8a7 7 0 0 0 .2-.828q.046-.282.038-.465a.6.6 0 0 0-.032-.198.5.5 0 0 0-.145.04c-.087.035-.158.106-.196.283-.04.192-.03.469.046.822q.036.167.09.346z"/>
+											</svg></a>
+										{% else %}
+											<p>
+												<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-file-earmark-x" viewBox="0 0 16 16">
+													<path d="M6.854 7.146a.5.5 0 1 0-.708.708L7.293 9l-1.147 1.146a.5.5 0 0 0 .708.708L8 9.707l1.146 1.147a.5.5 0 0 0 .708-.708L8.707 9l1.147-1.146a.5.5 0 0 0-.708-.708L8 8.293z"/>
+													<path d="M14 14V4.5L9.5 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2M9.5 3A1.5 1.5 0 0 0 11 4.5h2V14a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h5.5z"/>
+												</svg>
+											</p>
+										{% endif %}</span></td>
+									</tr>
+									{% endfor %}
+									{% for vinculo in desplazamiento %}
+									<tr>
+										<td class="cell"><span>{{ vinculo.resolucion }}</span></td>
+                    <td class="cell"><span>{{ vinculo.descripcion }}</span></td>
+										<td class="cell"><span class="truncate">{{ vinculo.resolucion.fecha|date:"d/m/Y"|default_if_none:"" }}</span></td>
+                    <td class="cell"><span>
+                    {% if vinculo.resolucion.pdf %}
+											<a href="{{ vinculo.resolucion.pdf.url }}" target="_blank" class="text-primary"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-file-earmark-pdf" viewBox="0 0 16 16">
+												<path d="M14 14V4.5L9.5 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2M9.5 3A1.5 1.5 0 0 0 11 4.5h2V14a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h5.5z"/>
+												<path d="M4.603 14.087a.8.8 0 0 1-.438-.42c-.195-.388-.13-.776.08-1.102.198-.307.526-.568.897-.787a7.7 7.7 0 0 1 1.482-.645 20 20 0 0 0 1.062-2.227 7.3 7.3 0 0 1-.43-1.295c-.086-.4-.119-.796-.046-1.136.075-.354.274-.672.65-.823.192-.077.4-.12.602-.077a.7.7 0 0 1 .477.365c.088.164.12.356.127.538.007.188-.012.396-.047.614-.084.51-.27 1.134-.52 1.794a11 11 0 0 0 .98 1.686 5.8 5.8 0 0 1 1.334.05c.364.066.734.195.96.465.12.144.193.32.2.518.007.192-.047.382-.138.563a1.04 1.04 0 0 1-.354.416.86.86 0 0 1-.51.138c-.331-.014-.654-.196-.933-.417a5.7 5.7 0 0 1-.911-.95 11.7 11.7 0 0 0-1.997.406 11.3 11.3 0 0 1-1.02 1.51c-.292.35-.609.656-.927.787a.8.8 0 0 1-.58.029m1.379-1.901q-.25.115-.459.238c-.328.194-.541.383-.647.547-.094.145-.096.25-.04.361q.016.032.026.044l.035-.012c.137-.056.355-.235.635-.572a8 8 0 0 0 .45-.606m1.64-1.33a13 13 0 0 1 1.01-.193 12 12 0 0 1-.51-.858 21 21 0 0 1-.5 1.05zm2.446.45q.226.245.435.41c.24.19.407.253.498.256a.1.1 0 0 0 .07-.015.3.3 0 0 0 .094-.125.44.44 0 0 0 .059-.2.1.1 0 0 0-.026-.063c-.052-.062-.2-.152-.518-.209a4 4 0 0 0-.612-.053zM8.078 7.8a7 7 0 0 0 .2-.828q.046-.282.038-.465a.6.6 0 0 0-.032-.198.5.5 0 0 0-.145.04c-.087.035-.158.106-.196.283-.04.192-.03.469.046.822q.036.167.09.346z"/>
+											</svg></a>
+										{% else %}
+											<p>
+												<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-file-earmark-x" viewBox="0 0 16 16">
+													<path d="M6.854 7.146a.5.5 0 1 0-.708.708L7.293 9l-1.147 1.146a.5.5 0 0 0 .708.708L8 9.707l1.146 1.147a.5.5 0 0 0 .708-.708L8.707 9l1.147-1.146a.5.5 0 0 0-.708-.708L8 8.293z"/>
+													<path d="M14 14V4.5L9.5 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2M9.5 3A1.5 1.5 0 0 0 11 4.5h2V14a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h5.5z"/>
+												</svg>
+											</p>
+										{% endif %}</span></td>
+									</tr>
+									{% endfor %}
+                </tbody>
+              </table>
+            </div><!--//table-responsive-->
+          </div><!--//app-card-body-->		
+        </div><!--//app-card-->
+			</div><!--//tab-pane-->
+
+      <div class="tab-pane fade" id="reconocimiento" role="tabpanel" aria-labelledby="reconocimiento-tab"> 
+        <div class="app-card app-card-orders-table mb-5">
+          <div class="app-card-body">
+            <div class="table-responsive">	
+              <table class="table mb-0 text-left">
+                <thead>
+                  <tr>
+                    <th class="cell">Tipo de Documento</th>
+                    <th class="cell">Descripción</th>
+                    <th class="cell">Fecha del Documento</th>
+                    <th class="cell">Inicio</th>
+                    <th class="cell">Fin</th>
+                    <th class="cell">Total de días</th>
+                    <th class="cell">Documento</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for d in reconocimiento %}
+                  <tr>
+                    <td class="cell"><span>{{ d.documento }}</span></td>
+                    <td class="cell"><span>{{ d.descripcion }}</span></td>
+                    <td class="cell"><span>{{ d.fecha|date:"d/m/Y"|default_if_none:"" }}</span></td>
+                    <td class="cell"><span>{{ d.fecha_inicio|date:"d/m/Y"|default_if_none:"" }}</span></td>
+                    <td class="cell"><span>{{ d.fecha_fin|date:"d/m/Y"|default_if_none:"" }}</span></td>
+                    <td class="cell"><span>{{ d.total_dias|default_if_none:"" }}</span></td>
+                    <td class="cell"><span>
+                    {% if d.pdf %}
+                      <a href="{{ d.pdf.url }}" target="_blank" class="text-primary"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-file-earmark-pdf" viewBox="0 0 16 16">
+                        <path d="M14 14V4.5L9.5 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2M9.5 3A1.5 1.5 0 0 0 11 4.5h2V14a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h5.5z"/>
+                        <path d="M4.603 14.087a.8.8 0 0 1-.438-.42c-.195-.388-.13-.776.08-1.102.198-.307.526-.568.897-.787a7.7 7.7 0 0 1 1.482-.645 20 20 0 0 0 1.062-2.227 7.3 7.3 0 0 1-.43-1.295c-.086-.4-.119-.796-.046-1.136.075-.354.274-.672.65-.823.192-.077.4-.12.602-.077a.7.7 0 0 1 .477.365c.088.164.12.356.127.538.007.188-.012.396-.047.614-.084.51-.27 1.134-.52 1.794a11 11 0 0 0 .98 1.686 5.8 5.8 0 0 1 1.334.05c.364.066.734.195.96.465.12.144.193.32.2.518.007.192-.047.382-.138.563a1.04 1.04 0 0 1-.354.416.86.86 0 0 1-.51.138c-.331-.014-.654-.196-.933-.417a5.7 5.7 0 0 1-.911-.95 11.7 11.7 0 0 0-1.997.406 11.3 11.3 0 0 1-1.02 1.51c-.292.35-.609.656-.927.787a.8.8 0 0 1-.58.029m1.379-1.901q-.25.115-.459.238c-.328.194-.541.383-.647.547-.094.145-.096.25-.04.361q.016.032.026.044l.035-.012c.137-.056.355-.235.635-.572a8 8 0 0 0 .45-.606m1.64-1.33a13 13 0 0 1 1.01-.193 12 12 0 0 1-.51-.858 21 21 0 0 1-.5 1.05zm2.446.45q.226.245.435.41c.24.19.407.253.498.256a.1.1 0 0 0 .07-.015.3.3 0 0 0 .094-.125.44.44 0 0 0 .059-.2.1.1 0 0 0-.026-.063c-.052-.062-.2-.152-.518-.209a4 4 0 0 0-.612-.053zM8.078 7.8a7 7 0 0 0 .2-.828q.046-.282.038-.465a.6.6 0 0 0-.032-.198.5.5 0 0 0-.145.04c-.087.035-.158.106-.196.283-.04.192-.03.469.046.822q.036.167.09.346z"/>
+                      </svg></a>
+                    {% else %}
+                      <p>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-file-earmark-x" viewBox="0 0 16 16">
+                          <path d="M6.854 7.146a.5.5 0 1 0-.708.708L7.293 9l-1.147 1.146a.5.5 0 0 0 .708.708L8 9.707l1.146 1.147a.5.5 0 0 0 .708-.708L8.707 9l1.147-1.146a.5.5 0 0 0-.708-.708L8 8.293z"/>
+                          <path d="M14 14V4.5L9.5 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2M9.5 3A1.5 1.5 0 0 0 11 4.5h2V14a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h5.5z"/>
+                        </svg>
+                      </p>
+                    {% endif %}</span></td>
+                  </tr>
+                  {% endfor %}	
+                </tbody>
+              </table>
+            </div><!--//table-responsive-->
+          </div><!--//app-card-body-->		
+        </div><!--//app-card-->
+      </div><!--//tab-pane-->
+
+      <div class="tab-pane fade" id="laboral" role="tabpanel" aria-labelledby="laboral-tab">
+        <div class="app-card app-card-orders-table mb-5">
+          <div class="app-card-body">
+            <div class="table-responsive">	
+              <table class="table mb-0 text-left">
+                <thead>
+                  <tr>
+                    <th class="cell">Tipo de Documento</th>
+                    <th class="cell">Descripción</th>
+                    <th class="cell">Fecha</th>
+                    <th class="cell">Documento</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for d in laboral %}
+                  <tr>
+                    <td class="cell"><span>{{ d.documento }}</span></td>
+                    <td class="cell"><span>{{ d.descripcion }}</span></td>
+                    <td class="cell"><span>{{ d.fecha|date:"d/m/Y"|default_if_none:"" }}</span></td>
+                    <td class="cell"><span>
+                    {% if d.pdf %}
+                      <a href="{{ d.pdf.url }}" target="_blank" class="text-primary"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-file-earmark-pdf" viewBox="0 0 16 16">
+                        <path d="M14 14V4.5L9.5 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2M9.5 3A1.5 1.5 0 0 0 11 4.5h2V14a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h5.5z"/>
+                        <path d="M4.603 14.087a.8.8 0 0 1-.438-.42c-.195-.388-.13-.776.08-1.102.198-.307.526-.568.897-.787a7.7 7.7 0 0 1 1.482-.645 20 20 0 0 0 1.062-2.227 7.3 7.3 0 0 1-.43-1.295c-.086-.4-.119-.796-.046-1.136.075-.354.274-.672.65-.823.192-.077.4-.12.602-.077a.7.7 0 0 1 .477.365c.088.164.12.356.127.538.007.188-.012.396-.047.614-.084.51-.27 1.134-.52 1.794a11 11 0 0 0 .98 1.686 5.8 5.8 0 0 1 1.334.05c.364.066.734.195.96.465.12.144.193.32.2.518.007.192-.047.382-.138.563a1.04 1.04 0 0 1-.354.416.86.86 0 0 1-.51.138c-.331-.014-.654-.196-.933-.417a5.7 5.7 0 0 1-.911-.95 11.7 11.7 0 0 0-1.997.406 11.3 11.3 0 0 1-1.02 1.51c-.292.35-.609.656-.927.787a.8.8 0 0 1-.58.029m1.379-1.901q-.25.115-.459.238c-.328.194-.541.383-.647.547-.094.145-.096.25-.04.361q.016.032.026.044l.035-.012c.137-.056.355-.235.635-.572a8 8 0 0 0 .45-.606m1.64-1.33a13 13 0 0 1 1.01-.193 12 12 0 0 1-.51-.858 21 21 0 0 1-.5 1.05zm2.446.45q.226.245.435.41c.24.19.407.253.498.256a.1.1 0 0 0 .07-.015.3.3 0 0 0 .094-.125.44.44 0 0 0 .059-.2.1.1 0 0 0-.026-.063c-.052-.062-.2-.152-.518-.209a4 4 0 0 0-.612-.053zM8.078 7.8a7 7 0 0 0 .2-.828q.046-.282.038-.465a.6.6 0 0 0-.032-.198.5.5 0 0 0-.145.04c-.087.035-.158.106-.196.283-.04.192-.03.469.046.822q.036.167.09.346z"/>
+                      </svg></a>
+                    {% else %}
+                      <p>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-file-earmark-x" viewBox="0 0 16 16">
+                          <path d="M6.854 7.146a.5.5 0 1 0-.708.708L7.293 9l-1.147 1.146a.5.5 0 0 0 .708.708L8 9.707l1.146 1.147a.5.5 0 0 0 .708-.708L8.707 9l1.147-1.146a.5.5 0 0 0-.708-.708L8 8.293z"/>
+                          <path d="M14 14V4.5L9.5 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2M9.5 3A1.5 1.5 0 0 0 11 4.5h2V14a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h5.5z"/>
+                        </svg>
+                      </p>
+                    {% endif %}</span></td>
+                  </tr>
+                  {% endfor %}	
+                </tbody>
+              </table>
+            </div><!--//table-responsive-->
+          </div><!--//app-card-body-->		
+        </div><!--//app-card-->
+      </div><!--//tab-pane-->
+
+      <div class="tab-pane fade" id="seguridad" role="tabpanel" aria-labelledby="seguridad-tab">
+        <div class="app-card app-card-orders-table mb-5">
+          <div class="app-card-body">
+            <div class="table-responsive">	
+              <table class="table mb-0 text-left">
+                <thead>
+                  <tr>
+                    <th class="cell">Tipo de Documento</th>
+                    <th class="cell">Descripción</th>
+                    <th class="cell">Fecha del Documento</th>
+                    <th class="cell">Fecha de Inicio</th>
+                    <th class="cell">Fecha de Fin</th>
+                    <th class="cell">Total Días</th>
+                    <th class="cell">Documento</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for d in seguridad %}
+                  <tr>
+                    <td class="cell"><span>{{ d.documento }}</span></td>
+                    <td class="cell"><span>{{ d.descripcion }}</span></td>
+                    <td class="cell"><span>{{ d.fecha|date:"d/m/Y"|default_if_none:"" }}</span></td>
+                    <td class="cell"><span>{{ d.fecha_inicio|date:"d/m/Y"|default_if_none:"" }}</span></td>
+                    <td class="cell"><span>{{ d.fecha_fin|date:"d/m/Y"|default_if_none:"" }}</span></td>
+                    <td class="cell"><span>{{ d.total_dias|default_if_none:"" }}</span></td>
+                    <td class="cell"><span>
+                    {% if d.pdf %}
+                      <a href="{{ d.pdf.url }}" target="_blank" class="text-primary"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-file-earmark-pdf" viewBox="0 0 16 16">
+                        <path d="M14 14V4.5L9.5 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2M9.5 3A1.5 1.5 0 0 0 11 4.5h2V14a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h5.5z"/>
+                        <path d="M4.603 14.087a.8.8 0 0 1-.438-.42c-.195-.388-.13-.776.08-1.102.198-.307.526-.568.897-.787a7.7 7.7 0 0 1 1.482-.645 20 20 0 0 0 1.062-2.227 7.3 7.3 0 0 1-.43-1.295c-.086-.4-.119-.796-.046-1.136.075-.354.274-.672.65-.823.192-.077.4-.12.602-.077a.7.7 0 0 1 .477.365c.088.164.12.356.127.538.007.188-.012.396-.047.614-.084.51-.27 1.134-.52 1.794a11 11 0 0 0 .98 1.686 5.8 5.8 0 0 1 1.334.05c.364.066.734.195.96.465.12.144.193.32.2.518.007.192-.047.382-.138.563a1.04 1.04 0 0 1-.354.416.86.86 0 0 1-.51.138c-.331-.014-.654-.196-.933-.417a5.7 5.7 0 0 1-.911-.95 11.7 11.7 0 0 0-1.997.406 11.3 11.3 0 0 1-1.02 1.51c-.292.35-.609.656-.927.787a.8.8 0 0 1-.58.029m1.379-1.901q-.25.115-.459.238c-.328.194-.541.383-.647.547-.094.145-.096.25-.04.361q.016.032.026.044l.035-.012c.137-.056.355-.235.635-.572a8 8 0 0 0 .45-.606m1.64-1.33a13 13 0 0 1 1.01-.193 12 12 0 0 1-.51-.858 21 21 0 0 1-.5 1.05zm2.446.45q.226.245.435.41c.24.19.407.253.498.256a.1.1 0 0 0 .07-.015.3.3 0 0 0 .094-.125.44.44 0 0 0 .059-.2.1.1 0 0 0-.026-.063c-.052-.062-.2-.152-.518-.209a4 4 0 0 0-.612-.053zM8.078 7.8a7 7 0 0 0 .2-.828q.046-.282.038-.465a.6.6 0 0 0-.032-.198.5.5 0 0 0-.145.04c-.087.035-.158.106-.196.283-.04.192-.03.469.046.822q.036.167.09.346z"/>
+                      </svg></a>
+                    {% else %}
+                      <p>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-file-earmark-x" viewBox="0 0 16 16">
+                          <path d="M6.854 7.146a.5.5 0 1 0-.708.708L7.293 9l-1.147 1.146a.5.5 0 0 0 .708.708L8 9.707l1.146 1.147a.5.5 0 0 0 .708-.708L8.707 9l1.147-1.146a.5.5 0 0 0-.708-.708L8 8.293z"/>
+                          <path d="M14 14V4.5L9.5 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2M9.5 3A1.5 1.5 0 0 0 11 4.5h2V14a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h5.5z"/>
+                        </svg>
+                      </p>
+                    {% endif %}</span></td>
+                  </tr>
+                  {% endfor %}	
+                </tbody>
+              </table>
+            </div><!--//table-responsive-->
+          </div><!--//app-card-body-->		
+        </div><!--//app-card-->
+      </div><!--//tab-pane-->
+
+      <div class="tab-pane fade" id="desvinculacion" role="tabpanel" aria-labelledby="desvinculacion-tab">
+        <div class="app-card app-card-orders-table mb-5">
+          <div class="app-card-body">
+            <div class="table-responsive">	
+              <table class="table mb-0 text-left">
+                <thead>
+                  <tr>
+                    <th class="cell">Tipo de Documento</th>
+                    <th class="cell">Descripción</th>
+                    <th class="cell">Fecha</th>
+                    <th class="cell">Documento</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for d in desvinculacion_docs %}
+                  <tr>
+                    <td class="cell"><span>{{ d.documento }}</span></td>
+                    <td class="cell"><span>{{ d.descripcion }}</span></td>
+                    <td class="cell"><span>{{ d.fecha|date:"d/m/Y"|default_if_none:"" }}</span></td>
+                    <td class="cell"><span>
+                    {% if d.pdf %}
+                      <a href="{{ d.pdf.url }}" target="_blank" class="text-primary"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-file-earmark-pdf" viewBox="0 0 16 16">
+                        <path d="M14 14V4.5L9.5 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2M9.5 3A1.5 1.5 0 0 0 11 4.5h2V14a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h5.5z"/>
+                        <path d="M4.603 14.087a.8.8 0 0 1-.438-.42c-.195-.388-.13-.776.08-1.102.198-.307.526-.568.897-.787a7.7 7.7 0 0 1 1.482-.645 20 20 0 0 0 1.062-2.227 7.3 7.3 0 0 1-.43-1.295c-.086-.4-.119-.796-.046-1.136.075-.354.274-.672.65-.823.192-.077.4-.12.602-.077a.7.7 0 0 1 .477.365c.088.164.12.356.127.538.007.188-.012.396-.047.614-.084.51-.27 1.134-.52 1.794a11 11 0 0 0 .98 1.686 5.8 5.8 0 0 1 1.334.05c.364.066.734.195.96.465.12.144.193.32.2.518.007.192-.047.382-.138.563a1.04 1.04 0 0 1-.354.416.86.86 0 0 1-.51.138c-.331-.014-.654-.196-.933-.417a5.7 5.7 0 0 1-.911-.95 11.7 11.7 0 0 0-1.997.406 11.3 11.3 0 0 1-1.02 1.51c-.292.35-.609.656-.927.787a.8.8 0 0 1-.58.029m1.379-1.901q-.25.115-.459.238c-.328.194-.541.383-.647.547-.094.145-.096.25-.04.361q.016.032.026.044l.035-.012c.137-.056.355-.235.635-.572a8 8 0 0 0 .45-.606m1.64-1.33a13 13 0 0 1 1.01-.193 12 12 0 0 1-.51-.858 21 21 0 0 1-.5 1.05zm2.446.45q.226.245.435.41c.24.19.407.253.498.256a.1.1 0 0 0 .07-.015.3.3 0 0 0 .094-.125.44.44 0 0 0 .059-.2.1.1 0 0 0-.026-.063c-.052-.062-.2-.152-.518-.209a4 4 0 0 0-.612-.053zM8.078 7.8a7 7 0 0 0 .2-.828q.046-.282.038-.465a.6.6 0 0 0-.032-.198.5.5 0 0 0-.145.04c-.087.035-.158.106-.196.283-.04.192-.03.469.046.822q.036.167.09.346z"/>
+                      </svg></a>
+                    {% else %}
+                      <p>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-file-earmark-x" viewBox="0 0 16 16">
+                          <path d="M6.854 7.146a.5.5 0 1 0-.708.708L7.293 9l-1.147 1.146a.5.5 0 0 0 .708.708L8 9.707l1.146 1.147a.5.5 0 0 0 .708-.708L8.707 9l1.147-1.146a.5.5 0 0 0-.708-.708L8 8.293z"/>
+                          <path d="M14 14V4.5L9.5 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2M9.5 3A1.5 1.5 0 0 0 11 4.5h2V14a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h5.5z"/>
+                        </svg>
+                      </p>
+                    {% endif %}</span></td>
+                  </tr>
+                  {% endfor %}	
+									{% for vinculo in desvinculacion %}
+									<tr>
+										<td class="cell"><span>{{ vinculo.resolucion }}</span></td>
+                    <td class="cell"><span>{{ vinculo.descripcion }}</span></td>
+										<td class="cell"><span class="truncate">{{ vinculo.resolucion.fecha|date:"d/m/Y"|default_if_none:"" }}</span></td>
+                    <td class="cell"><span>
+                    {% if vinculo.resolucion.pdf %}
+											<a href="{{ vinculo.resolucion.pdf.url }}" target="_blank" class="text-primary"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-file-earmark-pdf" viewBox="0 0 16 16">
+												<path d="M14 14V4.5L9.5 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2M9.5 3A1.5 1.5 0 0 0 11 4.5h2V14a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h5.5z"/>
+												<path d="M4.603 14.087a.8.8 0 0 1-.438-.42c-.195-.388-.13-.776.08-1.102.198-.307.526-.568.897-.787a7.7 7.7 0 0 1 1.482-.645 20 20 0 0 0 1.062-2.227 7.3 7.3 0 0 1-.43-1.295c-.086-.4-.119-.796-.046-1.136.075-.354.274-.672.65-.823.192-.077.4-.12.602-.077a.7.7 0 0 1 .477.365c.088.164.12.356.127.538.007.188-.012.396-.047.614-.084.51-.27 1.134-.52 1.794a11 11 0 0 0 .98 1.686 5.8 5.8 0 0 1 1.334.05c.364.066.734.195.96.465.12.144.193.32.2.518.007.192-.047.382-.138.563a1.04 1.04 0 0 1-.354.416.86.86 0 0 1-.51.138c-.331-.014-.654-.196-.933-.417a5.7 5.7 0 0 1-.911-.95 11.7 11.7 0 0 0-1.997.406 11.3 11.3 0 0 1-1.02 1.51c-.292.35-.609.656-.927.787a.8.8 0 0 1-.58.029m1.379-1.901q-.25.115-.459.238c-.328.194-.541.383-.647.547-.094.145-.096.25-.04.361q.016.032.026.044l.035-.012c.137-.056.355-.235.635-.572a8 8 0 0 0 .45-.606m1.64-1.33a13 13 0 0 1 1.01-.193 12 12 0 0 1-.51-.858 21 21 0 0 1-.5 1.05zm2.446.45q.226.245.435.41c.24.19.407.253.498.256a.1.1 0 0 0 .07-.015.3.3 0 0 0 .094-.125.44.44 0 0 0 .059-.2.1.1 0 0 0-.026-.063c-.052-.062-.2-.152-.518-.209a4 4 0 0 0-.612-.053zM8.078 7.8a7 7 0 0 0 .2-.828q.046-.282.038-.465a.6.6 0 0 0-.032-.198.5.5 0 0 0-.145.04c-.087.035-.158.106-.196.283-.04.192-.03.469.046.822q.036.167.09.346z"/>
+											</svg></a>
+										{% else %}
+											<p>
+												<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-file-earmark-x" viewBox="0 0 16 16">
+													<path d="M6.854 7.146a.5.5 0 1 0-.708.708L7.293 9l-1.147 1.146a.5.5 0 0 0 .708.708L8 9.707l1.146 1.147a.5.5 0 0 0 .708-.708L8.707 9l1.147-1.146a.5.5 0 0 0-.708-.708L8 8.293z"/>
+													<path d="M14 14V4.5L9.5 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2M9.5 3A1.5 1.5 0 0 0 11 4.5h2V14a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h5.5z"/>
+												</svg>
+											</p>
+										{% endif %}</span></td>
+									</tr>
+									{% endfor %}
+                </tbody>
+              </table>
+            </div><!--//table-responsive-->
+          </div><!--//app-card-body-->		
+        </div><!--//app-card-->
+      </div><!--//tab-pane-->
+
+      <div class="tab-pane fade" id="otros" role="tabpanel" aria-labelledby="otros-tab">
+        <div class="app-card app-card-orders-table mb-5">
+          <div class="app-card-body">
+            <div class="table-responsive">	
+              <table class="table mb-0 text-left">
+                <thead>
+                  <tr>
+                    <th class="cell">Tipo de Documento</th>
+                    <th class="cell">Descripción</th>
+                    <th class="cell">Fecha</th>
+                    <th class="cell">Documento</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for d in otro %}
+                  <tr>
+                    <td class="cell"><span>{{ d.documento }}</span></td>
+                    <td class="cell"><span>{{ d.descripcion }}</span></td>
+                    <td class="cell"><span>{{ d.fecha|date:"d/m/Y"|default_if_none:"" }}</span></td>
+                    <td class="cell"><span>
+                    {% if d.pdf %}
+                      <a href="{{ d.pdf.url }}" target="_blank" class="text-primary"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-file-earmark-pdf" viewBox="0 0 16 16">
+                        <path d="M14 14V4.5L9.5 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2M9.5 3A1.5 1.5 0 0 0 11 4.5h2V14a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h5.5z"/>
+                        <path d="M4.603 14.087a.8.8 0 0 1-.438-.42c-.195-.388-.13-.776.08-1.102.198-.307.526-.568.897-.787a7.7 7.7 0 0 1 1.482-.645 20 20 0 0 0 1.062-2.227 7.3 7.3 0 0 1-.43-1.295c-.086-.4-.119-.796-.046-1.136.075-.354.274-.672.65-.823.192-.077.4-.12.602-.077a.7.7 0 0 1 .477.365c.088.164.12.356.127.538.007.188-.012.396-.047.614-.084.51-.27 1.134-.52 1.794a11 11 0 0 0 .98 1.686 5.8 5.8 0 0 1 1.334.05c.364.066.734.195.96.465.12.144.193.32.2.518.007.192-.047.382-.138.563a1.04 1.04 0 0 1-.354.416.86.86 0 0 1-.51.138c-.331-.014-.654-.196-.933-.417a5.7 5.7 0 0 1-.911-.95 11.7 11.7 0 0 0-1.997.406 11.3 11.3 0 0 1-1.02 1.51c-.292.35-.609.656-.927.787a.8.8 0 0 1-.58.029m1.379-1.901q-.25.115-.459.238c-.328.194-.541.383-.647.547-.094.145-.096.25-.04.361q.016.032.026.044l.035-.012c.137-.056.355-.235.635-.572a8 8 0 0 0 .45-.606m1.64-1.33a13 13 0 0 1 1.01-.193 12 12 0 0 1-.51-.858 21 21 0 0 1-.5 1.05zm2.446.45q.226.245.435.41c.24.19.407.253.498.256a.1.1 0 0 0 .07-.015.3.3 0 0 0 .094-.125.44.44 0 0 0 .059-.2.1.1 0 0 0-.026-.063c-.052-.062-.2-.152-.518-.209a4 4 0 0 0-.612-.053zM8.078 7.8a7 7 0 0 0 .2-.828q.046-.282.038-.465a.6.6 0 0 0-.032-.198.5.5 0 0 0-.145.04c-.087.035-.158.106-.196.283-.04.192-.03.469.046.822q.036.167.09.346z"/>
+                      </svg></a>
+                    {% else %}
+                      <p>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-file-earmark-x" viewBox="0 0 16 16">
+                          <path d="M6.854 7.146a.5.5 0 1 0-.708.708L7.293 9l-1.147 1.146a.5.5 0 0 0 .708.708L8 9.707l1.146 1.147a.5.5 0 0 0 .708-.708L8.707 9l1.147-1.146a.5.5 0 0 0-.708-.708L8 8.293z"/>
+                          <path d="M14 14V4.5L9.5 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2M9.5 3A1.5 1.5 0 0 0 11 4.5h2V14a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h5.5z"/>
+                        </svg>
+                      </p>
+                    {% endif %}</span></td>
+                  </tr>
+                  {% endfor %}	
+                </tbody>
+              </table>
+            </div><!--//table-responsive-->
+          </div><!--//app-card-body-->		
+        </div><!--//app-card-->
+      </div><!--//tab-pane-->
+
+		</div><!--//tab-content-->		
+	</div><!--//container-fluid-->
+</div><!--//app-content-->
+{% endblock content %}
