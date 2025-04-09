@@ -3,7 +3,16 @@ from django.db.models import Q
 from empleados.models import Empleado 
 from documentos.models import Resolucion
 from .models import Vinculo, Experiencia, Formacion, Movimiento, Compensacion, DocumentoLegajo, Legajo
+from django.contrib.auth.views import LoginView
+from django.urls import reverse_lazy
+from django.contrib.auth.decorators import login_required
 
+class CustomLoginView(LoginView):
+    template_name = 'login.html'
+    redirect_authenticated_user = True
+    success_url = reverse_lazy('legajos:dashboard') 
+ 
+@login_required   
 def legajos_lista(request):
   query = request.GET.get('buscar', '')  # Obtén el texto ingresado en el buscador
   filters = Q(regimen_laboral__icontains=query) | Q(empleado__apellido_paterno__icontains=query) | Q(empleado__apellido_materno__icontains=query) | Q(empleado__nombres__icontains=query)
@@ -15,6 +24,7 @@ def legajos_lista(request):
   }
   return render(request, 'legajos_lista.html', context)
 
+@login_required
 def documentos(request):
     query = request.GET.get('buscador', '')
     filters = Q(documento__icontains=query) | Q(numero__icontains=query)
@@ -26,6 +36,7 @@ def documentos(request):
     }
     return render(request, 'documentos.html', context)
 
+@login_required
 def info_general(request, legajo_id):
     legajo = get_object_or_404(Legajo.objects.select_related('empleado'), id=legajo_id)
     empleado = legajo.empleado
@@ -68,5 +79,6 @@ def info_general(request, legajo_id):
     return render(request, 'info_general.html', context)
 
 # Vista para dashboard
+@login_required
 def dashboard(request):
     return render(request, 'dashboard.html')

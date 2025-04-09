@@ -2,39 +2,39 @@
 {% block content %}
 
 <div class="app-content pt-3 p-md-3 p-lg-4">
-	<div class="container-xl">
+    <div class="container-xl">
 
     <div class="col-auto">
       <h2 class="text-center">Reportes</h2>
       <p>Selecciona un trabajador para generar una constancia de trabajo o un informe escalafonario.</p>
     </div>
     
-
-    <div class="app-card-body">
     <!-- Formulario para Generar Constancia -->
+    <div class="app-card-body mt-4">
       <form method="get" action="{% url 'reportes:generar_constancia' 0 %}">
         <select id="empleado" name="empleado" class="form-select">
-            <option value="" disabled selected>Selecciona un trabajador</option>
-            {% for empleado in empleadoss %}
-                <option value="{{ empleado.id }}">{{ empleado.nombres }} {{ empleado.apellido_paterno }} {{ empleado.apellido_materno }}</option>
-            {% endfor %}
+          <option value="" disabled selected>Selecciona un trabajador</option>
+          {% for empleado in empleados %}
+              <option value="{{ empleado.id }}">{{ empleado.apellido_paterno }} {{ empleado.apellido_materno }}, {{ empleado.nombres }}</option>
+          {% endfor %}
         </select>
-        <button type="submit" class="btn app-btn-primary mt-2">Generar Constancia de trabajo</button>
+        <button type="submit" class="btn app-btn-primary mt-2">Generar Constancia de Trabajo</button>
       </form>
     </div>
-      <!-- Formulario para Generar Informe -->
+    
+    <!-- Formulario para Generar Informe -->
     <div class="app-card-body mt-4">
       <form method="get" action="{% url 'reportes:generar_informe' 0 %}">
         <select id="empleado" name="empleado" class="form-select">
           <option value="" disabled selected>Selecciona un trabajador</option>
           {% for empleado in empleados %}
-              <option value="{{ empleado.id }}">{{ empleado.nombres }} {{ empleado.apellido_paterno }} {{ empleado.apellido_materno }}</option>
+              <option value="{{ empleado.id }}">{{ empleado.apellido_paterno }} {{ empleado.apellido_materno }}, {{ empleado.nombres }}</option>
           {% endfor %}
         </select>
         <button type="submit" class="btn app-btn-primary mt-2">Generar Informe Escalafonario</button>
       </form>
     </div>
-	</div><!--//container-fluid-->
+    </div><!--//container-fluid-->
 </div><!--//app-content-->
 
 {% endblock %}

@@ -12,8 +12,15 @@
           <h5>Información del Trabajador</h5>
       </div>
       <div class="card-body">
-          <p><strong>Nombre:</strong> {{ empleado.nombres }} {{ empleado.apellido_paterno }} {{ empleado.apellido_materno }}</p>
+          <p><strong>Nombre:</strong> {{ empleado.apellido_paterno }} {{ empleado.apellido_materno }}, {{ empleado.nombres }}</p>
           <p><strong>DNI:</strong> {{ empleado.numero_documento }}</p>
+          <p><strong>Régimen Laboral:</strong> {{ regimen_actual.denominacion }}</p>
+          <p><strong>Oficina/Departamento:</strong> {{ oficina_actual.denominacion }}</p>
+          <p><strong>Condición:</strong> {{ condicion_actual.denominacion }}</p>
+          <p><strong>Grupo Ocupacional:</strong> {{ grupo_actual.denominacion }}</p>
+          <p><strong>Cargo:</strong> {{ cargo_actual.denominacion }}</p>
+          <p><strong>Nivel:</strong> {{ nivel_actual.denominacion }}</p>
+          <p><strong>Plaza:</strong> {{ plaza_actual.denominacion }}</p>
       </div>
   </div>
 
@@ -22,7 +29,7 @@
           <h5>Historial de Vínculo Laboral</h5>
       </div>
       <div class="card-body">
-          <form method="get" action="{% url 'reportes:descargar_informe' trabajador.id %}">
+          <form method="get" action="{% url 'reportes:descargar_informe' empleado.id %}">
               {% for vinculo in vinculos %}
                   <div class="form-check">
                       <input 
@@ -31,10 +38,10 @@
                           name="vinculos" 
                           value="{{ vinculo.id }}" 
                           id="vinculo-{{ vinculo.id }}"
+                          checked
                       >
                       <label class="form-check-label" for="vinculo-{{ vinculo.id }}">
-                          {{ vinculo.cargo }}
-                          {{ vinculo.descripcion }}
+                          {{ vinculo.tipo }} - {{ vinculo.descripcion }} (Resolución {{ vinculo.resolucion.numero }} del {{ vinculo.resolucion.fecha|date:"d/m/Y" }})
                       </label>
                   </div>
               {% empty %}

@@ -84,10 +84,10 @@
             </div><!--//app-card-header-->
            
             <div class="app-card-body px-4"> 
-              <div class="intro">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam aliquet eros vel diam semper mollis.</div>
+              <div class="intro">Registro del personal en todas sun modalidades</div>
             </div><!--//app-card-body-->
             <div class="app-card-footer p-4 mt-auto">
-             <a class="btn app-btn-primary" href="#">Agregar Nuevo</a>
+             <a class="btn app-btn-primary" href="{% url 'empleados:datos_personales' %}">Ver Registros</a>
             </div><!--//app-card-footer-->
           </div><!--//app-card-->
         </div><!--//col-->
@@ -105,17 +105,17 @@
                     </div><!--//icon-holder-->                      
                   </div><!--//col-->
                   <div class="col-auto">
-                    <h4 class="app-card-title">Informe Situacional</h4>
+                    <h4 class="app-card-title">Documentos</h4>
                   </div><!--//col-->
                 </div><!--//row-->
             </div><!--//app-card-header-->
             
             <div class="app-card-body px-4">
               
-              <div class="intro">Pellentesque varius, elit vel volutpat sollicitudin, lacus quam efficitur augue</div>
+              <div class="intro">Resoluciones y memorandos del historial laboral de los trabajadores</div>
             </div><!--//app-card-body-->
             <div class="app-card-footer p-4 mt-auto">
-             <a class="btn app-btn-primary" href="{% url 'reportes:formulario_reportes' %}">Crear Nuevo</a>
+             <a class="btn app-btn-primary" href="{% url 'legajos:documentos' %}">Ver Documentos</a>
             </div><!--//app-card-footer-->
           </div><!--//app-card-->
         </div><!--//col-->
@@ -133,15 +133,15 @@
                     </div><!--//icon-holder-->                     
                   </div><!--//col-->
                   <div class="col-auto">
-                    <h4 class="app-card-title">Informe Escalafonario</h4>
+                    <h4 class="app-card-title">Legajos</h4>
                   </div><!--//col-->
                 </div><!--//row-->
             </div><!--//app-card-header-->
             <div class="app-card-body px-4">  
-              <div class="intro">Sed maximus, libero ac pharetra elementum, turpis nisi molestie neque, et tincidunt velit turpis non enim.</div>
+              <div class="intro">Legajos del personal distribuidos en 12 secciones</div>
             </div><!--//app-card-body-->
               <div class="app-card-footer p-4 mt-auto">
-                <a class="btn app-btn-primary" href="#">Crear Nuevo</a>
+                <a class="btn app-btn-primary" href="{% url 'legajos:legajos_lista' %}">Ver Legajos</a>
               </div><!--//app-card-footer-->
           </div><!--//app-card-->
         </div><!--//col-->
@@ -167,10 +167,10 @@
             </div><!--//app-card-header-->
            
             <div class="app-card-body px-4"> 
-              <div class="intro">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam aliquet eros vel diam semper mollis.</div>
+              <div class="intro">Generar constancia de Trabajo</div>
             </div><!--//app-card-body-->
             <div class="app-card-footer p-4 mt-auto">
-             <a class="btn app-btn-primary" href="{% url 'reportes:formulario_reportes' %}">Nueva Constancia</a>
+             <a class="btn app-btn-primary" href="{% url 'reportes:formulario_reportes'%}">Nueva Constancia</a>
             </div><!--//app-card-footer-->
           </div><!--//app-card-->
         </div><!--//col-->
@@ -188,17 +188,17 @@
                     </div><!--//icon-holder-->                      
                   </div><!--//col-->
                   <div class="col-auto">
-                    <h4 class="app-card-title">Constancia Detallada</h4>
+                    <h4 class="app-card-title">Informe Escalafonario</h4>
                   </div><!--//col-->
                 </div><!--//row-->
             </div><!--//app-card-header-->
             
             <div class="app-card-body px-4">
               
-              <div class="intro">Pellentesque varius, elit vel volutpat sollicitudin, lacus quam efficitur augue</div>
+              <div class="intro">Obtener reporte en formato .docx de los trabajadores</div>
             </div><!--//app-card-body-->
             <div class="app-card-footer p-4 mt-auto">
-             <a class="btn app-btn-primary" href="#">Nueva Constancia</a>
+             <a class="btn app-btn-primary" href="{% url 'reportes:formulario_reportes'%}">Nuevo Informe</a>
             </div><!--//app-card-footer-->
           </div><!--//app-card-->
         </div><!--//col-->
@@ -217,15 +217,15 @@
                         
                   </div><!--//col-->
                   <div class="col-auto">
-                    <h4 class="app-card-title">Constancia por periodos</h4>
+                    <h4 class="app-card-title">Manual de usuario</h4>
                   </div><!--//col-->
                 </div><!--//row-->
             </div><!--//app-card-header-->
             <div class="app-card-body px-4">  
-              <div class="intro">Sed maximus, libero ac pharetra elementum, turpis nisi molestie neque, et tincidunt velit turpis non enim.</div>
+              <div class="intro">Instructivo detallado sobre el sistema de legajos</div>
             </div><!--//app-card-body-->
               <div class="app-card-footer p-4 mt-auto">
-                <a class="btn app-btn-primary" href="#">Crear Nuevo</a>
+                <a class="btn app-btn-primary" href="#">Ver Manual</a>
               </div><!--//app-card-footer-->
           </div><!--//app-card-->
         </div><!--//col-->

@@ -1,0 +1,26 @@
+    .plantilla-option {
+        display: block;
+        cursor: pointer;
+    }
+    .plantilla-option input[type="radio"] {
+        position: absolute;
+        opacity: 0;
+    }
+    .plantilla-card {
+        border: 2px solid #dee2e6;
+        border-radius: 5px;
+        padding: 15px;
+        text-align: center;
+        transition: all 0.3s;
+    }
+    .plantilla-option input[type="radio"]:checked + .plantilla-card {
+        border-color: #0d6efd;
+        background-color: #f8f9fa;
+    }
+    .plantilla-icon {
+        font-size: 2rem;
+        margin-bottom: 10px;
+    }
+    .plantilla-title {
+        font-weight: 500;
+    }

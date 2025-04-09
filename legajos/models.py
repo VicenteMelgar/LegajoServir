@@ -44,7 +44,7 @@ class Vinculo(models.Model):
     return self.descripcion
   
   class Meta:
-    ordering = ['descripcion']
+    ordering = ['-resolucion__fecha']
     verbose_name = 'Historial Laboral'
     verbose_name_plural = 'Historial Laboral'
  
@@ -58,7 +58,7 @@ class Compensacion(models.Model):
   fecha = models.DateField()
   
   def __str__(self):
-    return self.motivo
+    return self.descripcion
   
   class Meta:
     verbose_name = 'Compensación'
@@ -87,7 +87,7 @@ class Movimiento(models.Model):
       super(Movimiento, self).save(*args, **kwargs)
   
   def __str__(self):
-    return self.tipo
+    return self.asunto
 
   class Meta:
     ordering = ['-desde']

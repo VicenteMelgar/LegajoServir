@@ -1,7 +1,9 @@
 from django.shortcuts import render, get_object_or_404
 from django.db.models import Q
 from .models import Empleado, OficinaHistorial, RegimenHistorial, CondicionHistorial, GrupoHistorial, CargoHistorial, NivelHistorial, PlazaHistorial
+from django.contrib.auth.decorators import login_required
 
+@login_required   
 def datospersonales_lista(request):
   query = request.GET.get('searchorders', '')  # Texto ingresado en el buscador
   filters = Q(apellido_paterno__icontains=query) | Q(apellido_materno__icontains=query) | Q(nombres__icontains=query)
@@ -30,6 +32,7 @@ def datospersonales_lista(request):
 
   return render(request, 'empleados.html', context)
 
+@login_required   
 # Vista para actualizar Historial Laboral Personal
 def info_historial(request, empleado_id):
     empleado = get_object_or_404(Empleado, id=empleado_id)

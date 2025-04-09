@@ -2,76 +2,136 @@
 {% block content %}
 
 <div class="container mt-5">
-    <div class="text-center mb-4">
-        <h1>Constancia de Trabajo</h1>
-        <p>Emitida por: "Hospital Hermilio Valdizán"</p>
-    </div>
+  <div class="text-center mb-4">
+      <h1>Generar Constancia de Trabajo</h1>
+      <p>Seleccione los datos a incluir en la constancia</p>
+  </div>
 
-    <div class="card mb-4">
-        <div class="card-header">
-            <h5>Información del Trabajador</h5>
-        </div>
-        <div class="card-body">
-            <p><strong>Nombre:</strong> {{ trabajador.empleado.nombres }} {{ trabajador.empleado.apellido_paterno }} {{ trabajador.empleado.apellido_materno }}</p>
-            <p><strong>DNI:</strong> {{ trabajador.empleado.numero_documento }}</p>
-        </div>
-    </div>
+  <div class="card mb-4">
+      <div class="card-header">
+          <h5>Información del Trabajador</h5>
+      </div>
+      <div class="card-body">
+          <p><strong>Nombre:</strong> {{ empleado.apellido_paterno }} {{ empleado.apellido_materno }}, {{ empleado.nombres }}</p>
+          <p><strong>DNI:</strong> {{ empleado.numero_documento }}</p>
+      </div>
+  </div>
 
-    <div class="card mb-4">
-        <div class="card-header">
-            <h5>Historial de Vínculo Laboral</h5>
-        </div>
-        <div class="card-body">
-            <form method="get" action="{% url 'reportes:descargar_constancia' trabajador.id %}">
-                {% for vinculo in vinculos %}
-                    <div class="form-check">
-                        <input 
-                            type="checkbox" 
-                            class="form-check-input" 
-                            name="vinculos" 
-                            value="{{ vinculo.id }}" 
-                            id="vinculo-{{ vinculo.id }}"
-                        >
-                        <label class="form-check-label" for="vinculo-{{ vinculo.id }}">
-                            {{ vinculo.cargo }}
-                            ({{ vinculo.fecha_inicio|date:"d/m/Y" }} - {{ vinculo.fecha_fin|date:"d/m/Y"|default:"Fecha de finalización no registrada" }})
-                        </label>
-                    </div>
-                {% empty %}
-                    <p>No hay vínculos laborales registrados.</p>
-                {% endfor %}
-        </div>
-    </div>
+  <form method="get" action="{% url 'reportes:descargar_constancia' empleado.id %}">
+      <div class="card mb-4">
+          <div class="card-header">
+              <h5>Seleccione el Tipo de Constancia</h5>
+          </div>
+          <div class="card-body">
+              <div class="row">
+                  <div class="col-md-3 mb-3">
+                      <label class="plantilla-option">
+                          <input type="radio" name="plantilla" value="constanciaf" checked>
+                          <div class="plantilla-card">
+                              <div class="plantilla-icon">📑</div>
+                              <div class="plantilla-title">Constancia (f)</div>
+                          </div>
+                      </label>
+                  </div>
+                  <div class="col-md-3 mb-3">
+                      <label class="plantilla-option">
+                          <input type="radio" name="plantilla" value="constanciaf_actual">
+                          <div class="plantilla-card">
+                              <div class="plantilla-icon">📑</div>
+                              <div class="plantilla-title">Constancia (f) Actual</div>
+                          </div>
+                      </label>
+                  </div>
+                  <div class="col-md-3 mb-3">
+                      <label class="plantilla-option">
+                          <input type="radio" name="plantilla" value="constanciam">
+                          <div class="plantilla-card">
+                              <div class="plantilla-icon">📄</div>
+                              <div class="plantilla-title">Constancia (m)</div>
+                          </div>
+                      </label>
+                  </div>
+                  <div class="col-md-3 mb-3">
+                      <label class="plantilla-option">
+                          <input type="radio" name="plantilla" value="constanciam_actual">
+                          <div class="plantilla-card">
+                              <div class="plantilla-icon">📄</div>
+                              <div class="plantilla-title">Constancia (m) Actual</div>
+                          </div>
+                      </label>
+                  </div>
+              </div>
+          </div>
+      </div>
 
-    <div class="card mb-4">
-        <div class="card-header">
-            <h5>Historial de Desplazamiento</h5>
-        </div>
-        <div class="card-body">
-            {% for desplazamiento in desplazamientos %}
-            <div class="form-check">
-                <input 
-                    type="checkbox" 
-                    class="form-check-input" 
-                    name="desplazamientos" 
-                    value="{{ desplazamiento.id }}" 
-                    id="desplazamiento-{{ desplazamiento.id }}"
-                >
-                <label class="form-check-label" for="desplazamiento-{{ desplazamiento.id }}">
-                    {{ desplazamiento.cargo }}
-                    ({{ desplazamiento.fecha_inicio|date:"d/m/Y" }} - {{ desplazamiento.fecha_fin|date:"d/m/Y"|default:"Fecha de finalización no registrada" }})
-                </label>
-            </div>
-            {% empty %}
-                <p>No hay desplazamientos laborales registrados.</p>
-            {% endfor %}
-        </div>
-    </div>
+      <div class="card mb-4">
+          <div class="card-header">
+              <h5>Régimen Laboral</h5>
+          </div>
+          <div class="card-body">
+              {% for regimen in regimenes %}
+                  <div class="form-check">
+                      <input type="radio" class="form-check-input" name="regimen" 
+                             value="{{ regimen.id }}" id="regimen-{{ regimen.id }}" required>
+                      <label class="form-check-label" for="regimen-{{ regimen.id }}">
+                          {{ regimen.denominacion }} 
+                          (Desde: {{ regimen.fecha_inicio|date:"d/m/Y" }} - 
+                          Hasta: {% if regimen.fecha_fin %}{{ regimen.fecha_fin|date:"d/m/Y" }}{% else %}actualidad{% endif %})
+                      </label>
+                  </div>
+              {% empty %}
+                  <p>No hay regímenes laborales registrados.</p>
+              {% endfor %}
+          </div>
+      </div>
 
-    <div class="text-center mt-4">
-        <button type="submit" class="btn app-btn-primary">Descargar Constancia</button>
-    </div>
-    </form>
+      <div class="card mb-4">
+          <div class="card-header">
+              <h5>Oficina/Departamento</h5>
+          </div>
+          <div class="card-body">
+              {% for oficina in oficinas %}
+                  <div class="form-check">
+                      <input type="radio" class="form-check-input" name="oficina" 
+                             value="{{ oficina.id }}" id="oficina-{{ oficina.id }}" required>
+                      <label class="form-check-label" for="oficina-{{ oficina.id }}">
+                          {{ oficina.denominacion }}
+                          (Desde: {{ oficina.fecha_inicio|date:"d/m/Y" }} - 
+                          Hasta: {% if oficina.fecha_fin %}{{ oficina.fecha_fin|date:"d/m/Y" }}{% else %}actualidad{% endif %})
+                      </label>
+                  </div>
+              {% empty %}
+                  <p>No hay oficinas/departamentos registrados.</p>
+              {% endfor %}
+          </div>
+      </div>
+
+      <div class="card mb-4">
+          <div class="card-header">
+              <h5>Cargo</h5>
+          </div>
+          <div class="card-body">
+              {% for cargo in cargos %}
+                  <div class="form-check">
+                      <input type="radio" class="form-check-input" name="cargo" 
+                             value="{{ cargo.id }}" id="cargo-{{ cargo.id }}" required>
+                      <label class="form-check-label" for="cargo-{{ cargo.id }}">
+                          {{ cargo.denominacion }}
+                          (Desde: {{ cargo.fecha_inicio|date:"d/m/Y" }} - 
+                          Hasta: {% if cargo.fecha_fin %}{{ cargo.fecha_fin|date:"d/m/Y" }}{% else %}actualidad{% endif %})
+                      </label>
+                  </div>
+              {% empty %}
+                  <p>No hay cargos registrados.</p>
+              {% endfor %}
+          </div>
+      </div>
+
+      <div class="text-center mt-4">
+          <button type="submit" class="btn app-btn-primary">Generar Constancia</button>
+      </div>
+  </form>
 </div>
+
 
 {% endblock %}
